@@ -1,6 +1,6 @@
 # Xitique Digital
 
-Plataforma web para gestão transparente de poupança rotativa comunitária. Esta versão é um MVP de produção mínima: autenticação por sessão, API JSON, SQLite, cache em ficheiro, interface web e seed de demonstração.
+Plataforma web para gestão transparente de poupança rotativa comunitária. Esta versão é um MVP de produção mínima: autenticação por sessão, API JSON, SQLite, cache em ficheiro, interface React e seed de demonstração.
 
 ## Como correr
 
@@ -22,9 +22,22 @@ Também pode abrir via XAMPP/Apache em `http://localhost/XitiqueDigital/public` 
 
 - PHP 8.2 puro, sem framework externo.
 - SQLite por padrão em `database/database.sqlite`.
-- Front-end SPA em JavaScript puro.
+- Front-end SPA em React com Vite.
+- Componentes reutilizáveis em `resources/js/components`.
+- `lucide-react` para ícones, `@radix-ui/react-alert-dialog` para diálogo acessível e `clsx` para composição de classes.
 - Cache em ficheiro em `storage/cache`.
 - Sessão HTTP com cookie `HttpOnly` e protecção CSRF para operações mutáveis.
+
+## Frontend
+
+Instale dependências e gere os assets de produção:
+
+```powershell
+npm install
+npm run build
+```
+
+O build escreve `public/assets/app.js` e `public/assets/app.css`, usados directamente pelo PHP.
 
 ## Funcionalidades do MVP
 
@@ -52,7 +65,10 @@ docs/
   ARCHITECTURE.md  Decisões técnicas e desenho do sistema
 public/
   index.php        Front controller e HTML inicial
-  assets/          CSS, JS e imagem local
+  assets/          Bundle React compilado e imagem local
+resources/
+  js/              App React, componentes e cliente de API
+  styles/          CSS-fonte do design system
 storage/
   cache/           Cache materializada por grupo
 ```
@@ -75,4 +91,3 @@ Todas as chamadas `POST` e `DELETE` usam o header `X-CSRF-Token` gerado no HTML 
 - `POST /api/payouts/{id}/confirm`
 
 Mais detalhes em [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
-

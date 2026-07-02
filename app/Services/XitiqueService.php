@@ -311,7 +311,7 @@ final class XitiqueService
     /** @return array<string, mixed> */
     public function dashboard(int $groupId, int $userId, bool $bypassCache = false): array
     {
-        $key = "group_{$groupId}_dashboard_user_{$userId}";
+        $key = "group_{$groupId}_dashboard_v2_user_{$userId}";
         $ttl = Config::int('CACHE_TTL_SECONDS', 45);
 
         if ($bypassCache) {
@@ -520,6 +520,7 @@ final class XitiqueService
         return [
             'group' => $group,
             'role' => [
+                'user_id' => $userId,
                 'is_organizer' => $isOrganizer,
                 'is_member' => $currentMember !== null,
                 'is_current_beneficiary' => $isBeneficiary,

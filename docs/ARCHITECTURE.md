@@ -7,7 +7,7 @@ O MVP foi desenhado como uma aplicação modular em PHP puro, pronta para correr
 Arquitectura lógica:
 
 ```text
-Browser SPA
+Browser SPA React
    |
    | JSON + sessão + CSRF
    v
@@ -29,6 +29,15 @@ SQLite / futuro PostgreSQL
 
 `public/index.php`
 : Front controller. Serve o HTML inicial, aplica headers de segurança, normaliza URLs para XAMPP e servidor embutido, e encaminha `/api/*`.
+
+`resources/js/App.jsx`
+: Shell React da aplicação. Controla sessão, grupos, dashboard, estados de loading, submissões e mensagens de erro/sucesso.
+
+`resources/js/components/ui/*`
+: Componentes reutilizáveis: botões, campos, badges, painéis, feedback, barra de progresso e diálogo de confirmação acessível.
+
+`resources/styles/app.css`
+: Camada visual do design system com foco visível, responsividade, tabelas, skeletons e estados de formulário.
 
 `app/Core/Router.php`
 : Router mínimo com rotas parametrizadas como `/api/groups/{id}`.
@@ -53,6 +62,36 @@ SQLite / futuro PostgreSQL
 
 `app/Services/XitiqueService.php`
 : Camada de domínio. Contém permissões, criação de grupos, gestão de membros, pagamentos, fecho de ciclo, criação de payout e abertura automática do próximo ciclo.
+
+## Frontend de Produção
+
+O frontend usa React e Vite, mas continua servido pelo PHP para manter o deploy simples em XAMPP/Apache:
+
+```text
+resources/js/main.jsx
+   |
+   v
+npm run build
+   |
+   v
+public/assets/app.js + public/assets/app.css
+```
+
+Bibliotecas:
+
+- `react` e `react-dom` para composição da SPA.
+- `@radix-ui/react-alert-dialog` para confirmação acessível de remoção de membros.
+- `lucide-react` para ícones consistentes em botões e métricas.
+- `clsx` para classes condicionais.
+
+Estados tratados:
+
+- boot inicial com spinner;
+- troca de grupo com estado de actualização;
+- submissões com botões em loading e `aria-busy`;
+- grupos vazios, ciclos inexistentes, membros inexistentes e comprovativos vazios;
+- erros de API em `role="alert"`/toast;
+- diálogo de confirmação com foco e teclado tratados pelo Radix.
 
 ## Fluxo de Dados
 
@@ -280,4 +319,3 @@ Longo prazo:
 - CSRF obrigatório em mutações.
 - Permissões por grupo: organizador gere; membro consulta; beneficiário confirma o seu recebimento.
 - Não há carteira digital nem custódia de dinheiro.
-

@@ -92,7 +92,6 @@ $csrf = htmlspecialchars(Csrf::token(), ENT_QUOTES, 'UTF-8');
             <p>A carregar o Xitique Digital...</p>
         </main>
     </div>
-    <script src="assets/app.js" defer></script>
+    <script type="module" src="assets/app.js"></script>
 </body>
 </html>
-

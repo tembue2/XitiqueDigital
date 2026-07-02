@@ -3,4 +3,6 @@
 /storage/logs/*
 !.gitkeep
 .env
+/node_modules/
+/public/assets/.vite/
 
